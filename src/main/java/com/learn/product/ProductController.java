@@ -71,6 +71,12 @@ public class ProductController {
 		productRepository.save(originalProduct);
 	}
 	
+	@RequestMapping(value="/companies/{companyId}/products/{productId}", method=RequestMethod.DELETE)
+	public void deleteProduct(@PathVariable Integer productId){
+		//Product product = productRepository.findOne(productId);
+		productRepository.delete(productId);
+	}
+	
 //	@RequestMapping(value="/companies", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 //	public void saveCompany(@RequestBody Company company){
 //		companyRepository.save(company);

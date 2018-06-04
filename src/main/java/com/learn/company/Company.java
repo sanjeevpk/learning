@@ -22,7 +22,7 @@ public class Company {
 	private int id;
     private String name;
     
-    @OneToMany(mappedBy ="company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy ="company", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Product> products;
     
     public Company(){
