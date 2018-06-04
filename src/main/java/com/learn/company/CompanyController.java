@@ -14,6 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -93,5 +94,19 @@ public class CompanyController {
 			productRepository.save(product);
 		}
 		
+	}
+	
+	@RequestMapping(value="/companies/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public void updateCompany(@RequestBody Company company, @PathVariable Integer id){
+		Company oldCompany = companyRepository.findOne(id);
+		oldCompany.setName(company.getName());
+		oldCompany.setProducts(company.getProducts());
+		companyRepository.save(oldCompany);
+		if(oldCompany.getProducts() != null){
+			for (Product product : oldCompany.getProducts()) {
+				product.setCompany(oldCompany);
+				productRepository.save(product);
+			}
+		}
 	}
 }

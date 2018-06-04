@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.learn.company.Company;
 import com.learn.company.CompanyRepository;
 import com.learn.product.Product;
 import com.learn.product.ProductRepository;
@@ -61,6 +62,13 @@ public class ProductController {
 	@RequestMapping("/companies/{companyId}/products/{productId}")
 	public Product getOneProduct(@PathVariable Integer companyId, @PathVariable Integer productId){
 		return productRepository.findOne(productId);
+	}
+	
+	@RequestMapping(value="/companies/{companyId}/products/{productId}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public void updateProduct(@RequestBody Product product, @PathVariable Integer productId){
+		Product originalProduct = productRepository.findOne(productId);
+		originalProduct.setName(product.getName());
+		productRepository.save(originalProduct);
 	}
 	
 //	@RequestMapping(value="/companies", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
