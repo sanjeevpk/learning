@@ -109,4 +109,10 @@ public class CompanyController {
 			}
 		}
 	}
+	
+	@RequestMapping(value="/companies/{id}", method=RequestMethod.DELETE)
+	public void deleteCompany(@PathVariable Integer id){
+		Company company = companyRepository.findOne(id);
+		companyRepository.delete(company);
+	}
 }
