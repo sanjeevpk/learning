@@ -89,11 +89,12 @@ public class CompanyController {
 	@RequestMapping(value="/companies", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public void saveCompany(@RequestBody Company company){
 		companyRepository.save(company);
-		for (Product product : company.getProducts()) {
-			product.setCompany(company);
-			productRepository.save(product);
+		if(company.getProducts() != null){
+			for (Product product : company.getProducts()) {
+				product.setCompany(company);
+				productRepository.save(product);
+			}
 		}
-		
 	}
 	
 	@RequestMapping(value="/companies/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
