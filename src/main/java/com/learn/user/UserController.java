@@ -5,6 +5,8 @@ package com.learn.user;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,11 +58,20 @@ public class UserController {
 	 */
 	@PostMapping(value="/users")
 	public void saveUser(@RequestBody User user){
-		userRepository.save(user);
-		if(user.getAddress() != null){
-			for(Address address : user.getAddress()){
-				address.setUser(user);
-				addressRepository.save(user.getAddress());
+		/**
+		 * To check whether the user email is already registered or not, if not then continue registration
+		 * else throw exception and ask user to log-in
+		 */
+		User userExists = userRepository.findByEmail(user.getEmail());
+		if(userExists != null){
+			throw new RuntimeException("Email already exists!");
+		}else{
+			userRepository.save(user);
+			if(user.getAddress() != null){
+				for(Address address : user.getAddress()){
+					address.setUser(user);
+					addressRepository.save(user.getAddress());
+				}
 			}
 		}
 	}

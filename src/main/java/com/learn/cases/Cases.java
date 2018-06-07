@@ -56,6 +56,9 @@ public class Cases implements Serializable{
 	@Column(name="POSTED_TIME")
 	private String postedTime;
 	
+	@Column(name="STATUS")
+	private String status;
+	
 	@Column(name="CITY")
 	private String city;
 	
@@ -136,6 +139,14 @@ public class Cases implements Serializable{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override

@@ -29,15 +29,49 @@ public class CasesController {
 	@Autowired
 	UserRepository userRepository;
 	
-	@GetMapping("/cases")
+	/**
+	 * Get all users all cases
+	 * @return
+	 */
+	@GetMapping("/users/cases")
 	public List<Cases> getAllCases(){
 		return (List<Cases>) casesRepository.findAll();
 	}
 	
-	@PostMapping("/cases/{userId}")
+	/**
+	 * Get a particular user all cases
+	 * @param userId
+	 * @return
+	 */
+	@GetMapping("/users/{userId}/cases")
+	public List<Cases> getAllCasesOfAUser(@PathVariable Long userId){
+		return casesRepository.findByUserId(userId);
+	}
+	
+	/**
+	 * Save a case of a user
+	 * @param cases
+	 * @param userId
+	 */
+	@PostMapping("/users/{userId}/cases")
 	public void saveCase(@RequestBody Cases cases, @PathVariable Long userId){
 		User user = userRepository.findOne(userId);
 		cases.setUser(user);
 		casesRepository.save(cases);
+	}
+	
+	/**
+	 * Get a particular case of a particular user
+	 * @param caseId
+	 * @return
+	 */
+	@GetMapping("/users/{userId}/cases/{caseId}")
+	public Cases getAParticularCase(@PathVariable Long caseId){
+		return casesRepository.findOne(caseId);
+	}
+	
+	@GetMapping("/users/cases/status/new")
+	public List<Cases> getAllUsersNewCases(){
+		return (List<Cases>) casesRepository.findByStatus("new");
 	}
 }
