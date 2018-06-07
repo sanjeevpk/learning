@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.learn.address.Address;
 import com.learn.address.AddressRepository;
+import com.learn.user.UserRepository;
 
 /**
  * @author sanjkul2
@@ -73,12 +74,19 @@ public class AdvocateController {
 	@PutMapping("/advocates/{id}")
 	public void updateAdvocate(@RequestBody Advocate advocate, @PathVariable Long id){
 		Advocate oldAdvocate = advocateRepository.findOne(id);
-		advocate.setId(oldAdvocate.getId());
-		advocateRepository.save(advocate);
-		if(advocate.getAddress() != null){
-			for(Address address : advocate.getAddress()){
-				address.setAdvocate(advocate);
-				addressRepository.save(advocate.getAddress());
+		oldAdvocate.setEmail(advocate.getEmail());
+		oldAdvocate.setMobile(advocate.getMobile());
+		oldAdvocate.setName(advocate.getName());
+		oldAdvocate.setPassword(advocate.getPassword());
+		oldAdvocate.setAddress(advocate.getAddress());
+		
+//		advocate.setId(oldAdvocate.getId());
+		advocateRepository.save(oldAdvocate);
+		if(oldAdvocate.getAddress() != null){
+			for(Address address : oldAdvocate.getAddress()){
+				//address.setId(oldAdvocate.getAddress().get(0).getId());
+				address.setAdvocate(oldAdvocate);
+				addressRepository.save(address);
 			}
 		}
 	}

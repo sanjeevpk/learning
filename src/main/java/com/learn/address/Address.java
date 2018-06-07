@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.learn.advocate.Advocate;
+import com.learn.user.User;
 
 @Entity
 @Table(name="address")
@@ -33,11 +34,15 @@ public class Address implements Serializable{
     private String country;
     private long pincode;
     
-    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "advocate")
     @JsonIgnore
     private Advocate advocate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user")
+    @JsonIgnore
+    private User user;
     
 	public long getId() {
 		return id;
@@ -86,5 +91,11 @@ public class Address implements Serializable{
 	}
 	public void setAdvocate(Advocate advocate) {
 		this.advocate = advocate;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

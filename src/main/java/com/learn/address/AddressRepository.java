@@ -16,4 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AddressRepository extends CrudRepository<Address, Long>{
 	List<Address> findByAdvocateId(Long id);
+	
+	List<Address> findByUserId(Long id);
 }
